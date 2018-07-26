@@ -6,7 +6,7 @@ The developer experience of the router is designed to be similar to [React Route
 
 ## Installing
 
-In your project directory, run `npm install @stencil/router --save`. Then add `import '@stencil/router'` to your root component (normally the `my-app` component if your are using one of the starters).
+In your project directory, run `npm install @stencil/router --save`. Then add `import '@stencil/router'` to your root component (normally the `my-app` component if you are using one of the starters).
 
 ## Included components
 
@@ -79,7 +79,7 @@ To navigate around an app, use the `stencil-route-link` component.
 <stencil-route-link url="/docs/getting-started">
 ```
 
-### Navigating Programtically
+### Navigating Programmatically
 
 If you are in a routed component ( a component that has been included in a `stencil-route`) and would like to navigate programmatically you first need to pass the router history in as a Prop to your component. Below is an example of this:
 
@@ -96,9 +96,6 @@ You can then use the following methods on the history object to navigate:
 ```typescript
 // pushing a route (going forwards to a certain route)
 this.history.push(`/demos`, {});
-
-// popping a route (going back to a certain route)
-this.history.pop('/home', {});
 
 // navigate back as if the user hit the back button in the browser
 this.history.goBack();
@@ -127,7 +124,7 @@ The key part in this route is the `:pageNum` syntax. This means that we can now 
 <stencil-route-link url={`/show/${someData}`} />
 ```
 
-Now let's go over how to access this data from the `show-page` component we are routing too.
+Now let's go over how to access this data from the `show-page` component we are routing to.
 
 
 First, we need to pass the `match` prop to our `show-page` component:

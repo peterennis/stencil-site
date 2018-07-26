@@ -15,6 +15,7 @@ export class LandingPage {
   }
 
   componentDidLoad() {
+    console.log('didLoad called on landing page');
     // unfortunately necessary hack because Edge
     // dont show the animated youtube video in Edge because
     // pointer-events: none; is broken in Edge
@@ -80,7 +81,7 @@ export class LandingPage {
         <section id="three-points">
           <div class="point-card simple">
             <h2>Simple</h2>
-            <p>With intentionally small tooling,a tiny API, zero configuration, and TypeScript support, you're set.</p>
+            <p>With intentionally small tooling, a tiny API, zero configuration, and TypeScript support, you're set.</p>
           </div>
 
           <div class="point-card performant">

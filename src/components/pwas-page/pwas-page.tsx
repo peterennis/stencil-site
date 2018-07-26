@@ -1,12 +1,10 @@
-import { Component, Prop } from '@stencil/core';
+import { Component } from '@stencil/core';
 
 @Component({
   tag: 'pwas-page',
   styleUrl: 'pwas-page.scss'
 })
 export class pwasPage {
-
-  @Prop({ context: 'isServer' }) private isServer: boolean;
 
   demos = [
     {
@@ -34,14 +32,6 @@ export class pwasPage {
 
   constructor() {
     document.title = `PWAs`;
-  }
-
-  componentDidLoad() {
-    if (!this.isServer) {
-      window.requestAnimationFrame(() => {
-        window.scrollTo(0, 0);
-      });
-    }
   }
 
   render() {
@@ -110,7 +100,7 @@ export class pwasPage {
 
           <h4>Service Worker</h4>
           <p>
-            When your run <code>npm run build</code> we automatically generate a Service Worker for you using <a href="https://workboxjs.org/">Workbox</a> that handles pre-caching your assets.
+            When you run <code>npm run build</code> we automatically generate a Service Worker for you using <a href="https://workboxjs.org/">Workbox</a> that handles pre-caching your assets.
 
             <stencil-route-link url="/docs/service-workers" class="block">
               Read more about Service Workers
