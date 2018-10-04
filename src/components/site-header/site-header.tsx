@@ -2,13 +2,13 @@ import { Component, Element, Listen, State } from '@stencil/core';
 
 @Component({
   tag: 'site-header',
-  styleUrl: 'site-header.scss'
+  styleUrl: 'site-header.css'
 })
 export class SiteHeader {
 
-  @Element() el: Element;
+  @Element() el!: Element;
 
-  @State() isMobileMenuShown: boolean;
+  @State() isMobileMenuShown: boolean = false;
 
   @Listen('window:resize')
   handleResize() {
@@ -57,7 +57,7 @@ export class SiteHeader {
     return (
       <div class="container">
         <stencil-route-link url="/" class="logo-link">
-          <img class="logo" alt="Stencil" src="/assets/img/stencil-logo-new.svg" />
+          <app-icon name="logo"/>
         </stencil-route-link>
 
         <div class="header-menu">
@@ -66,9 +66,6 @@ export class SiteHeader {
           </stencil-route-link>
           <stencil-route-link url="/demos"  exact={true} onClick={() => { this.hideNav() }}>
             Demos
-          </stencil-route-link>
-          <stencil-route-link url="/pwa" exact={true} onClick={() => { this.hideNav() }}>
-            PWAs
           </stencil-route-link>
           <stencil-route-link url="/resources"  exact={true} onClick={() => { this.hideNav() }}>
             Resources

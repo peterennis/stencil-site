@@ -3,15 +3,15 @@ import SiteProviderConsumer from '../../global/site-provider-consumer';
 
 @Component({
   tag: 'app-burger',
-  styleUrl: 'app-burger.scss'
+  styleUrl: 'app-burger.css'
 })
 export class AppBurger {
-  @Element() el: HTMLStencilElement;
+  @Element() el!: HTMLStencilElement;
   @Prop() toggleLeftSidebar: () => void = () => {}
 
   render() {
     return (
-      <div class="burger" onClick={() => this.toggleLeftSidebar() }>
+      <div class="burger" onClick={this.toggleLeftSidebar}>
         <app-icon name="menu"></app-icon>
         <app-icon name="close"></app-icon>
       </div>

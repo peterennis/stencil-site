@@ -2,15 +2,16 @@ import { Component, Prop} from '@stencil/core';
 
 @Component({
   tag: 'demo-card',
-  styleUrl: 'demo-card.scss'
+  styleUrl: 'demo-card.css'
 })
 export class DemoCard {
 
-  @Prop() name: string;
-  @Prop() description: string;
-  @Prop() imgPath: string;
-  @Prop() demoUrl: string;
-  @Prop() sourceUrl: string;
+  @Prop() name?: string;
+  @Prop() description?: string;
+  @Prop() imgPath?: string;
+  @Prop() demoUrl?: string;
+  @Prop() sourceUrl?: string;
+  @Prop() SourceBufferList?: string;
 
   render() {
     return (

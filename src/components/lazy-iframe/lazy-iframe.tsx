@@ -2,22 +2,22 @@ import { Component, Element, Prop, State } from '@stencil/core';
 
 @Component({
   tag: 'lazy-iframe',
-  styleUrl: 'lazy-iframe.scss'
+  styleUrl: 'lazy-iframe.css'
 })
 export class LazyIframe {
 
-  @Prop() src: string;
-  @Prop() name: string;
-  @Prop() frameBorder: string;
-  @Prop() scrolling: string;
-  @Prop() width: string;
-  @Prop() height: string;
+  @Prop() src?: string;
+  @Prop() name?: string;
+  @Prop() frameBorder?: string;
+  @Prop() scrolling?: string;
+  @Prop() width?: string;
+  @Prop() height?: string;
 
-  @State() realSrc: string;
+  @State() realSrc?: string;
 
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
-  io: IntersectionObserver;
+  io?: IntersectionObserver;
 
   componentDidLoad() {
     if ('IntersectionObserver' in window) {

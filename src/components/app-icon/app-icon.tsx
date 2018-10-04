@@ -2,11 +2,11 @@ import { Component, Prop} from '@stencil/core';
 
 @Component({
   tag: 'app-icon',
-  styleUrl: 'app-icon.scss'
+  styleUrl: 'app-icon.css'
 })
 export class AppIcon {
 
-  @Prop() name: string;
+  @Prop() name?: string;
 
   render() {
     return (

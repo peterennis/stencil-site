@@ -1,40 +1,36 @@
-import { Component, Prop, State, Watch } from '@stencil/core';
+import { Component, Prop, State, Watch, ComponentInterface } from '@stencil/core';
+import { MarkdownContent } from '../../global/definitions';
 
 @Component({
   tag: 'app-marked',
-  styleUrl: 'app-marked.scss'
+  styleUrl: 'app-marked.css'
 })
-export class AppMarked {
+export class AppMarked implements ComponentInterface {
 
-  @Prop() doc: string;
+  @Prop() fetchPath?: string;
+  @Prop() renderer?: (doc: MarkdownContent) => JSX.Element;
 
-  @State() content: string;
+  @State() docsContent: MarkdownContent = {};
 
   componentWillLoad() {
-    return this.fetchNewContent();
+    return this.fetchNewContent(this.fetchPath);
   }
 
-  @Watch('doc')
-  fetchNewContent() {
-    if (this.doc !== undefined) {
-      const doc = document;
-      return fetch(`/docs-content/${this.doc}`)
-        .then(response => response.text())
-        .then(data => {
-          this.content = data;
-
-          const el = doc.createElement('div');
-          el.innerHTML = data;
-
-          const headerEl = el.querySelector('h1');
-          doc.title = (headerEl && headerEl.textContent + ' - Stencil') || 'Stencil';
-        });
+  @Watch('fetchPath')
+  fetchNewContent(docPath: string, oldDocPath?: string) {
+    if (docPath == null || docPath === oldDocPath) {
+      return;
     }
+    return fetch(this.fetchPath)
+      .then(response => response.json())
+      .then((data: MarkdownContent) => {
+        if (data != null) {
+          this.docsContent = data;
+        }
+      });
   }
 
   render() {
-    return [
-      <div class="measure-lg" innerHTML={this.content}></div>
-    ]
+    return this.renderer(this.docsContent);
   }
 }
