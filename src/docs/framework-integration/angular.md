@@ -5,6 +5,7 @@ url: /docs/angular
 contributors:
   - jthoms1
   - adamdbradley
+  - kensodemann
 ---
 
 # Angular
@@ -37,7 +38,7 @@ export class AppModule {}
 
 The `CUSTOM_ELEMENTS_SCHEMA` needs to be included in any module that uses custom elements.
 
-## Calling `defineCustomElements(window)`
+## Calling defineCustomElements
 
 A component collection built with Stencil includes a main function that is used to load the components in the collection. That function is called `defineCustomElements()` and it needs to be called once during the bootstrapping of your application. One convenient place to do this is in `main.ts` as such:
 
@@ -48,7 +49,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-import { defineCustomElements } from 'test-components';
+import { defineCustomElements } from 'test-components/dist/loader';
 
 if (environment.production) {
   enableProdMode();

@@ -16,6 +16,8 @@ export class LandingPage {
     document.title = `Stencil`;
   }
 
+  videoPlayer: any;
+
   componentDidLoad() {
     this.isModalOpen = false;
 
@@ -24,6 +26,16 @@ export class LandingPage {
     // pointer-events: none; is broken in Edge
     // just link to the youtube video directly like we do on mobile
     this.isEdge = (document as any).documentMode || /Edge/.test(navigator.userAgent) ? true : false;
+
+    // attach youtube iframe api
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    window['onYouTubeIframeAPIReady'] = () => {
+      this.videoPlayer = new window['YT'].Player('youtube-embed', {});
+    }
   }
 
   @Listen('window:keyup')
@@ -44,24 +56,26 @@ export class LandingPage {
 
   openModal() {
     const bod = (document.querySelector('body') as HTMLElement);
-    const youtube = (this.el.querySelector('#youtube-video') as HTMLElement);
-    const background = (this.el.querySelector('#background') as HTMLElement);
+    const modal = (document.querySelector('.modal') as HTMLElement);
 
     bod.classList.add('no-scroll');
-    youtube.classList.add('youtube-show');
-    background.classList.add('background-show');
+    modal.style.display = "block";
+    modal.classList.remove('modal--hide');
+    modal.classList.add('modal--show');
 
     this.isModalOpen = true;
   }
 
   closeModal() {
     const bod = (document.querySelector('body') as HTMLElement);
-    const youtube = (this.el.querySelector('#youtube-video') as HTMLElement);
-    const background = (this.el.querySelector('#background') as HTMLElement);
+    const modal = (document.querySelector('.modal') as HTMLElement);
 
     bod.classList.remove('no-scroll');
-    youtube.classList.remove('youtube-show');
-    background.classList.remove('background-show');
+    modal.classList.remove('modal--show');
+    modal.classList.add('modal--hide');
+    setTimeout(() => { modal.style.display = "none"; }, 200)
+
+    this.videoPlayer.pauseVideo();
 
     this.isModalOpen = false;
   }
@@ -69,11 +83,26 @@ export class LandingPage {
   render() {
     return (
       <div>
-        <div onClick={() => { this.closeModal() }} id="background"></div>
 
-        {!this.isServer ? <div id="youtube-video" onClick={() => { this.closeModal() }}>
-          <lazy-iframe src="https://www.youtube.com/embed/UfD-k7aHkQE" width="700" height="450" title="Ionic team at Polymer Summit video" />
-        </div>: null}
+        {!this.isServer
+          ? <div class="modal">
+              <div onClick={() => { this.closeModal() }} class="modal__background"></div>
+                <div class="modal__content" onClick={() => { this.closeModal() }}>
+                  <div class="video-wrapper">
+                    <iframe
+                      id="youtube-embed"
+                      frameBorder="0"
+                      title="Ionic team at Polymer Summit video"
+                      allowFullScreen={true}
+                      src="https://www.youtube.com/embed/UfD-k7aHkQE?enablejsapi=1"
+                      width="700"
+                      height="450">
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+          : null
+        }
 
         <main>
           <section class="hero">
@@ -113,7 +142,7 @@ export class LandingPage {
                 <li class="feature-list__item">
                   <app-icon name="performant"/>
                   <h3>Performant</h3>
-                  <p>6kb min+gzip runtime, server side rendering, and the raw power of native Web Components.</p>
+                  <p>6kb min+gzip runtime, pre-rendering, and the raw power of native Web Components.</p>
                 </li>
                 <li class="feature-list__item">
                   <app-icon name="futureproof"/>

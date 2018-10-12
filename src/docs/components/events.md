@@ -28,6 +28,39 @@ export class TodoList {
 
 The code above will dispatch a custom DOM event called `todoCompleted`.
 
+The `Event()` decorator optionally accepts an options object to shape the behavior of dispatched events. The options and defaults are described below
+
+```tsx
+import { Event, EventEmitter } from '@stencil/core';
+
+...
+export class TodoList {
+
+  @Event({
+    /*
+     * A string custom event name to override the default
+     */
+    eventName: 'todoCompleted',
+    /*
+     * A Boolean value indicating whether or not the event can bubble across the boundary between the shadow DOM and the regular DOM.
+     */
+    composed: true,
+    /*
+     * A Boolean indicating whether the event is cancelable
+     */
+    cancelable: true,
+    /*
+     * A Boolean indicating whether the event bubbles up through the DOM or not.
+     */
+    bubbles: true,
+  }) todoCompleted: EventEmitter;
+
+  todoCompletedHandler(todo: Todo) {
+    this.todoCompleted.emit(todo);
+  }
+}
+```
+
 ## Listening for Events
 
 The `Listen()` decorator is for handling events dispatched from `@Events`.
@@ -68,33 +101,17 @@ For keyboard events, you can use the standard `keydown` event in `@Listen()` and
 
 ```tsx
 @Listen('keydown')
-handleKeyDown(ev){
-  if(ev.keyCode === 40){
+handleKeyDown(ev: KeyboardEvent){
+  if (ev.key === 'ArrowDown'){
     console.log('down arrow pressed')
   }
 }
-
-@Listen('keydown.up')
-handleUpArrow(ev){
-  console.log('will fire when up arrow is pressed');
-}
-
 ```
-
-Stencil provides constants for the following keys, accessible via `keydown.<CONSTANT>`
-
-- enter
-- escape
-- space
-- tab
-- left
-- up
-- right
-- down
+More info on event key strings can be found in the [w3c spec](https://www.w3.org/TR/uievents-key/#named-key-attribute-values);
 
 ## Using events in JSX
 
-You can also bind listeners to events directly in JSX. This works very similar to normal DOM events such as `onClick`.
+Within a stencil compiled application or component you can also bind listeners to events directly in JSX. This works very similar to normal DOM events such as `onClick`.
 
 Lets use our TodoList component from above:
 
@@ -115,5 +132,15 @@ export class TodoList {
 We can now listen to this event directly on the component in our JSX using the following syntax:
 
 ```tsx
-<todo-list onTodoCompleted={ev => this.someMethod(ev)}></todo-list>
+<todo-list onTodoCompleted={ev => this.someMethod(ev)} />
+```
+
+## Listening events from a non-JSX element
+
+```tsx
+<todo-list></todo-list>
+<script>
+  const todoListElement = document.querySelector('todo-list');
+  todoListElement.addEventListener('todoCompleted', event => { /* your listener */ })
+</script>
 ```

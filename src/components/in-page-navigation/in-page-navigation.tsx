@@ -14,13 +14,15 @@ export class InPageNavigtion implements ComponentInterface {
 
   @Listen('window:scroll')
   function() {
-    const item = this.itemOffsets.find(item => item.topOffset > document.documentElement.scrollTop);
+    const item = this.itemOffsets.find(item => item.topOffset > window.scrollY);
     if (item) {
       this.selectedId = item.id;
     }
   }
 
   @Prop() pageLinks: MarkdownHeading[] = [];
+  @Prop() srcUrl: string = '';
+  @Prop() currentPageUrl: string = '';
   @State() itemOffsets: ItemOffset[] = [];
   @State() selectedId: string = null;
 
@@ -36,10 +38,19 @@ export class InPageNavigtion implements ComponentInterface {
 
   render() {
     const pageLinks = this.pageLinks.filter(pl => pl.level !== 1);
-    const submitEditLink = <a class="submit-edit-link" href="#"><app-icon name="github"></app-icon><span>Submit an edit</span></a>;
+    const submitEditLink = (
+       <a class="submit-edit-link" href={`https://github.com/ionic-team/stencil-site/blob/master/${this.srcUrl}`}>
+         <app-icon name="github"></app-icon>
+         <span>Submit an edit</span>
+       </a>
+    );
 
     if (pageLinks.length === 0) {
-      return submitEditLink;
+      return (
+        <div class="sticky">
+          { submitEditLink }
+        </div>
+      );
     }
 
     return (
@@ -52,7 +63,7 @@ export class InPageNavigtion implements ComponentInterface {
               [`size-h${pl.level}`]: true,
               'selected': this.selectedId === pl.id
             }}>
-            <a href={`#${pl.id}`}>{pl.text}</a>
+            <stencil-route-link url={`${this.currentPageUrl}#${pl.id}`}>{pl.text}</stencil-route-link>
           </li>
           )) }
         </ul>

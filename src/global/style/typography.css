@@ -14,32 +14,41 @@ body {
   color: var(--color-woodsmoke);
 } */
 
-h1 {
+h1,
+h1 a {
   font-size: 28px;
   font-weight: bold;
+  color: var(--color-woodsmoke);
 }
 
-h2 {
+h2,
+h2 a {
   font-size: 20px;
   font-weight: bold;
+  color: var(--color-woodsmoke);
 }
 
-h3 {
-  /* padding-top: 70px;
-  margin-top: -22px;
-  margin-bottom: 14px; */
+h3 ,
+h3 a {
+  font-size: 17px;
+  font-weight: bold;
+
+  color: var(--color-woodsmoke);
 }
 
-h4 {
-  font-size: 16px;
-  margin-top: 24px;
+h4,
+h4 a {
+  font-size: 14px;
+  margin-top: 32px;
   margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-gunpowder);
 }
 
 p,
 ul,
-ol,
-td {
+ol {
   color: var(--color-gunpowder);
   font-size: 15px;
   line-height: 1.8;
@@ -76,6 +85,6 @@ blockquote {
 
 blockquote p {
   color: var(--color-pirate-gold);
-  line-height: 1.4;
+  line-height: 1.6;
   font-size: 14px;
 }

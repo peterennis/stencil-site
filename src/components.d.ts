@@ -81,10 +81,14 @@ export namespace Components {
   }
 
   interface InPageNavigation {
+    'currentPageUrl': string;
     'pageLinks': MarkdownHeading[];
+    'srcUrl': string;
   }
   interface InPageNavigationAttributes extends StencilHTMLAttributes {
+    'currentPageUrl'?: string;
     'pageLinks'?: MarkdownHeading[];
+    'srcUrl'?: string;
   }
 
   interface LandingPage {}
@@ -93,6 +97,8 @@ export namespace Components {
   interface LazyIframe {
     'frameBorder'?: string;
     'height'?: string;
+    'identifier'?: string;
+    'isVideo'?: boolean;
     'name'?: string;
     'scrolling'?: string;
     'src'?: string;
@@ -101,7 +107,10 @@ export namespace Components {
   interface LazyIframeAttributes extends StencilHTMLAttributes {
     'frameBorder'?: string;
     'height'?: string;
+    'identifier'?: string;
+    'isVideo'?: boolean;
     'name'?: string;
+    'onVideoLoaded'?: (event: CustomEvent) => void;
     'scrolling'?: string;
     'src'?: string;
     'width'?: string;
