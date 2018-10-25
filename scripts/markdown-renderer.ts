@@ -103,9 +103,10 @@ export function collectHeadingMetadata(renderer: marked.Renderer, metadata: Mark
     });
 
     return `
-<h${level}>
-  <a id="${id}" href="#${id}"><ion-icon name="link"></ion-icon></a>
+<h${level} id="${id}">
+  ${(level !== 1) ? `<a class="heading-link" href="#${id}"><app-icon name="link"></app-icon>` : ''}
   ${text}
+  ${(level !== 1) ? `</a>` : ''}
 </h${level}>
 `;
   };

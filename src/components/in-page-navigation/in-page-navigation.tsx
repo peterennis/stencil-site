@@ -1,4 +1,4 @@
-import { Component, Prop, ComponentInterface, Listen, State } from '@stencil/core';
+import { Component, Prop, ComponentInterface, Listen, State, Watch } from '@stencil/core';
 import { MarkdownHeading } from '../../global/definitions';
 
 interface ItemOffset {
@@ -14,9 +14,13 @@ export class InPageNavigtion implements ComponentInterface {
 
   @Listen('window:scroll')
   function() {
-    const item = this.itemOffsets.find(item => item.topOffset > window.scrollY);
-    if (item) {
-      this.selectedId = item.id;
+    const itemIndex = this.itemOffsets.findIndex(item => item.topOffset > window.scrollY);
+    if (itemIndex === 0) {
+      this.selectedId = null;
+    } else if (itemIndex === -1) {
+      this.selectedId = this.itemOffsets[this.itemOffsets.length - 1].id
+    } else {
+      this.selectedId = this.itemOffsets[itemIndex - 1].id
     }
   }
 
@@ -26,14 +30,22 @@ export class InPageNavigtion implements ComponentInterface {
   @State() itemOffsets: ItemOffset[] = [];
   @State() selectedId: string = null;
 
+  @Watch('pageLinks')
+  @Listen('window:resize')
+  updateItemOffsets() {
+    requestAnimationFrame(() => {
+      this.itemOffsets = this.pageLinks.map((pl) => {
+        const item = document.getElementById(pl.id);
+        return {
+          id: pl.id,
+          topOffset: item.getBoundingClientRect().top + window.scrollY
+        };
+      });
+    });
+  }
+
   componentDidLoad() {
-    this.itemOffsets = this.pageLinks.map((pl) => {
-      const item = document.getElementById(pl.id);
-      return {
-        id: pl.id,
-        topOffset: item.getBoundingClientRect().top
-      };
-    })
+    this.updateItemOffsets();
   }
 
   render() {
