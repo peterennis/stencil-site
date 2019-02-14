@@ -5,6 +5,7 @@ url: /docs/templating-jsx
 contributors:
   - jthoms1
   - simonhaenisch
+  - arjunyel
 ---
 
 # Using JSX
@@ -310,4 +311,4 @@ export class AppHome{
 }
 ```
 
-In this example we are using `ref` to get a reference to our input `ref={(el: HTMLInputElement) => this.textInput = el}`. We can then use that ref to do things such as grab the value from the text input directly `this.textInput.value`.
+In this example we are using `ref` to get a reference to our input `ref={(el) => this.textInput = el as HTMLInputElement}`. We can then use that ref to do things such as grab the value from the text input directly `this.textInput.value`.
