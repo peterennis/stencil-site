@@ -1,12 +1,13 @@
 ---
-title: VueJS Intergration with Stencil
-description: VueJS Intergration with Stencil
+title: VueJS Integration with Stencil
+description: VueJS Integration with Stencil
 url: /docs/vue
 contributors:
   - jthoms1
   - adamdbradley
   - kensodemann
   - brysalazar12
+  - iskanderbroere
 ---
 
 # Vue
