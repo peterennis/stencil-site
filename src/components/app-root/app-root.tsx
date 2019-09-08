@@ -19,6 +19,7 @@ export class AppRoot {
   @Element() el!: HTMLElement;
 
   @State() isLeftSidebarIn: boolean = false;
+  @State() isModalOpen: boolean = false;
 
   @Listen('resize', { target: 'window' })
   handleResize() {
@@ -31,6 +32,11 @@ export class AppRoot {
         });
       }
     });
+  }
+
+  @Listen('toggleModal')
+  handleToggleModal(ev: CustomEvent) {
+    this.isModalOpen = ev.detail;
   }
 
   private setHistory = ({ history }: { history: RouterHistory }) => {
@@ -94,11 +100,11 @@ export class AppRoot {
                 <doc-component page={match!.url}></doc-component>
               )}/>
 
-              <stencil-route url="/blog/:pageName" routeRender={({ match }) => (
-                <blog-component pageUrl={match!.url}></blog-component>
-              )}/>
+              <stencil-route url="/blog" component="blog-list" exact={true}/>
 
-              {/*<stencil-route url="/blog" component="blog-component" />*/}
+              <stencil-route url="/blog/:pageName" routeRender={({ match }) => (
+                <blog-component page={match!.url}></blog-component>
+              )}/>
 
               <stencil-route url="/pwa" component="pwas-page" />
               <stencil-route url="/resources" component="resources-page" />
@@ -131,6 +137,8 @@ export class AppRoot {
               </div>
             </div>
           </footer>
+
+          <hubspot-modal active={this.isModalOpen}/>
         </main>
       </SiteProviderConsumer.Provider>
     );

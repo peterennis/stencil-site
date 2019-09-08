@@ -12,6 +12,7 @@ import {
 } from './global/definitions';
 
 export namespace Components {
+  interface AnnouncementBar {}
   interface AppBurger {
     'toggleLeftSidebar': () => void;
   }
@@ -20,8 +21,9 @@ export namespace Components {
   }
   interface AppRoot {}
   interface BlogComponent {
-    'pageUrl'?: string;
+    'page'?: string;
   }
+  interface BlogList {}
   interface ContributorList {
     'contributors'?: string[];
   }
@@ -38,7 +40,11 @@ export namespace Components {
     'page'?: string;
   }
   interface DsPage {}
+  interface GuideCallout {}
   interface HighlightCode {}
+  interface HubspotModal {
+    'active': boolean;
+  }
   interface InPageNavigation {
     'currentPageUrl': string;
     'pageLinks': MarkdownHeading[];
@@ -73,6 +79,12 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLAnnouncementBarElement extends Components.AnnouncementBar, HTMLStencilElement {}
+  var HTMLAnnouncementBarElement: {
+    prototype: HTMLAnnouncementBarElement;
+    new (): HTMLAnnouncementBarElement;
+  };
+
   interface HTMLAppBurgerElement extends Components.AppBurger, HTMLStencilElement {}
   var HTMLAppBurgerElement: {
     prototype: HTMLAppBurgerElement;
@@ -95,6 +107,12 @@ declare global {
   var HTMLBlogComponentElement: {
     prototype: HTMLBlogComponentElement;
     new (): HTMLBlogComponentElement;
+  };
+
+  interface HTMLBlogListElement extends Components.BlogList, HTMLStencilElement {}
+  var HTMLBlogListElement: {
+    prototype: HTMLBlogListElement;
+    new (): HTMLBlogListElement;
   };
 
   interface HTMLContributorListElement extends Components.ContributorList, HTMLStencilElement {}
@@ -127,10 +145,22 @@ declare global {
     new (): HTMLDsPageElement;
   };
 
+  interface HTMLGuideCalloutElement extends Components.GuideCallout, HTMLStencilElement {}
+  var HTMLGuideCalloutElement: {
+    prototype: HTMLGuideCalloutElement;
+    new (): HTMLGuideCalloutElement;
+  };
+
   interface HTMLHighlightCodeElement extends Components.HighlightCode, HTMLStencilElement {}
   var HTMLHighlightCodeElement: {
     prototype: HTMLHighlightCodeElement;
     new (): HTMLHighlightCodeElement;
+  };
+
+  interface HTMLHubspotModalElement extends Components.HubspotModal, HTMLStencilElement {}
+  var HTMLHubspotModalElement: {
+    prototype: HTMLHubspotModalElement;
+    new (): HTMLHubspotModalElement;
   };
 
   interface HTMLInPageNavigationElement extends Components.InPageNavigation, HTMLStencilElement {}
@@ -205,16 +235,20 @@ declare global {
     new (): HTMLSiteTopBarElement;
   };
   interface HTMLElementTagNameMap {
+    'announcement-bar': HTMLAnnouncementBarElement;
     'app-burger': HTMLAppBurgerElement;
     'app-icon': HTMLAppIconElement;
     'app-root': HTMLAppRootElement;
     'blog-component': HTMLBlogComponentElement;
+    'blog-list': HTMLBlogListElement;
     'contributor-list': HTMLContributorListElement;
     'custom-clock': HTMLCustomClockElement;
     'demo-card': HTMLDemoCardElement;
     'doc-component': HTMLDocComponentElement;
     'ds-page': HTMLDsPageElement;
+    'guide-callout': HTMLGuideCalloutElement;
     'highlight-code': HTMLHighlightCodeElement;
+    'hubspot-modal': HTMLHubspotModalElement;
     'in-page-navigation': HTMLInPageNavigationElement;
     'landing-page': HTMLLandingPageElement;
     'lower-content-nav': HTMLLowerContentNavElement;
@@ -231,6 +265,9 @@ declare global {
 }
 
 declare namespace LocalJSX {
+  interface AnnouncementBar extends JSXBase.HTMLAttributes<HTMLAnnouncementBarElement> {
+    'onToggleModal'?: (event: CustomEvent<any>) => void;
+  }
   interface AppBurger extends JSXBase.HTMLAttributes<HTMLAppBurgerElement> {
     'toggleLeftSidebar'?: () => void;
   }
@@ -239,8 +276,9 @@ declare namespace LocalJSX {
   }
   interface AppRoot extends JSXBase.HTMLAttributes<HTMLAppRootElement> {}
   interface BlogComponent extends JSXBase.HTMLAttributes<HTMLBlogComponentElement> {
-    'pageUrl'?: string;
+    'page'?: string;
   }
+  interface BlogList extends JSXBase.HTMLAttributes<HTMLBlogListElement> {}
   interface ContributorList extends JSXBase.HTMLAttributes<HTMLContributorListElement> {
     'contributors'?: string[];
   }
@@ -257,7 +295,14 @@ declare namespace LocalJSX {
     'page'?: string;
   }
   interface DsPage extends JSXBase.HTMLAttributes<HTMLDsPageElement> {}
+  interface GuideCallout extends JSXBase.HTMLAttributes<HTMLGuideCalloutElement> {
+    'onToggleModal'?: (event: CustomEvent<any>) => void;
+  }
   interface HighlightCode extends JSXBase.HTMLAttributes<HTMLHighlightCodeElement> {}
+  interface HubspotModal extends JSXBase.HTMLAttributes<HTMLHubspotModalElement> {
+    'active'?: boolean;
+    'onToggleModal'?: (event: CustomEvent<any>) => void;
+  }
   interface InPageNavigation extends JSXBase.HTMLAttributes<HTMLInPageNavigationElement> {
     'currentPageUrl'?: string;
     'pageLinks'?: MarkdownHeading[];
@@ -289,16 +334,20 @@ declare namespace LocalJSX {
   interface SiteTopBar extends JSXBase.HTMLAttributes<HTMLSiteTopBarElement> {}
 
   interface IntrinsicElements {
+    'announcement-bar': AnnouncementBar;
     'app-burger': AppBurger;
     'app-icon': AppIcon;
     'app-root': AppRoot;
     'blog-component': BlogComponent;
+    'blog-list': BlogList;
     'contributor-list': ContributorList;
     'custom-clock': CustomClock;
     'demo-card': DemoCard;
     'doc-component': DocComponent;
     'ds-page': DsPage;
+    'guide-callout': GuideCallout;
     'highlight-code': HighlightCode;
+    'hubspot-modal': HubspotModal;
     'in-page-navigation': InPageNavigation;
     'landing-page': LandingPage;
     'lower-content-nav': LowerContentNav;
