@@ -34,6 +34,8 @@
   * [Overview](config/overview.md)
   * [Dev Server](config/dev-server.md)
   * [Plugins](config/plugins.md)
+  * [Extras](config/extras.md)
+  * [CLI](config/cli.md)
 * Output Targets
   * [Overview](output-targets/overview.md)
   * [www](output-targets/www.md)
