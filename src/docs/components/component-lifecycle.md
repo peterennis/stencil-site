@@ -8,9 +8,12 @@ contributors:
 
 # Component Lifecycle Methods
 
-Components have numerous lifecycle methods which can be used to know when the component "will" and "did" load, update, and unload. These methods can be added to a component to hook into operations at the right time.
+Components have numerous lifecycle methods which can be used to know when the component "will" and "did" load, update, and render. These methods can be added to a component to hook into operations at the right time.
 
 Implement one of the following methods within a component class and Stencil will automatically call them in the right order:
+
+<lifecycle-chart></lifecycle-chart>
+
 
 ## connectedCallback()
 
@@ -45,19 +48,37 @@ This `lifecycle` hook follows the same semantics as the one described by the [Cu
 
 ## componentWillLoad()
 
-Called once just after the component is first connected to the DOM.
+Called once just after the component is first connected to the DOM. Since this method is only called once, it's a good place to load data asynchronously.
+
 A promise can be returned, that can be used to wait for the first render.
 
 ## componentDidLoad()
 
 Called once just after the component fully loaded and the first `render()` occurs.
 
+
+## componentShouldUpdate()
+
+This hook is called when a component's `Prop` or `State` property changes and a rerender is about to be requested. This hook receives three arguments: the new value, the old value and the name of the changed state. It should return a boolean to indicate if the component should rerender (`true`) or not (`false`).
+
+A couple of things to notice is that this method will not be executed before the initial render, that is, when the component is first attached to the dom, nor when a rerender is already scheduled in the next frame.
+
+Let’s say the following two props of a component change synchronously:
+
+```tsx
+component.somePropA = 42;
+component.somePropB = 88;
+```
+
+The `componentShouldUpdate` will be first called with arguments: `42`, `undefined` and `somePropA`. If it does return `true`, the hook will not be called again since the rerender is already scheduled to happen. Instead, if the first hook returned `false`, then `componentShouldUpdate` will be called again with `88`, `undefined` and `somePropB` as arguments, triggered by the `component.somePropB = 88` mutation.
+
+Since the execution of this hook might be conditioned, it's not good to rely on it to watch for prop changes, instead use the `@Watch` decorator for that.
+
 ## componentWillRender()
 
 Called before every `render()`.
 
 A promise can be returned, that can be used to wait for the upcoming render.
-
 
 ## componentDidRender()
 
@@ -78,62 +99,11 @@ Called just after the component updates.
 It's never called during the first `render()`.
 
 
-<svg viewBox="0 0 643 774" xmlns="http://www.w3.org/2000/svg" style="margin: 60px 0;">
-  <g fill="none" fill-rule="evenodd">
-    <path d="M552 576a90 90 0 0 0 90-90V165c0-58.5-47.2-106-105.5-106A105.8 105.8 0 0 0 431 165l.4 136.5v136" stroke="#B3B6C5" stroke-linecap="square"/>
-    <path stroke="#B3B6C5" d="M437.6 432.3l-6.3 6.3-6.3-6.3"/>
-    <path d="M126.4 19.5v419" stroke="#B3B6C5" stroke-linecap="square"/>
-    <path stroke="#B3B6C5" d="M132.6 432.3l-6.3 6.3-6.3-6.3"/>
-    <path d="M290.3 628.5v82" stroke="#B3B6C5" stroke-linecap="square"/>
-    <path stroke="#B3B6C5" d="M296.6 704.3l-6.3 6.3-6.3-6.3"/>
-    <rect fill="#FDF5E4" x="1" y="550" width="555" height="50" rx="4"/>
-    <rect fill="#FDF5E4" x="1" y="611" width="555" height="50" rx="4"/>
-    <rect fill="#FDF5E4" width="252" height="50" rx="4"/>
-    <rect fill="#212431" y="452" width="252" height="49" rx="24.5"/>
-    <rect fill="#212431" x="303" y="452" width="252" height="49" rx="24.5"/>
-    <rect fill="#212431" x="303" y="229" width="252" height="49" rx="24.5"/>
-    <rect fill="#212431" x="164" y="725" width="252" height="49" rx="24.5"/>
-    <rect fill="#212431" x="303" y="169" width="252" height="49" rx="24.5"/>
-    <text font-size="14" letter-spacing="-.2" fill="#9A6400">
-      <tspan x="57" y="30">Component initialized</tspan>
-    </text>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="43" y="482">componentDidLoad()</tspan>
-    </text>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="336.3" y="482">componentDidUpdate()</tspan>
-    </text>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="332.1" y="259">componentWillUpdate()</tspan>
-    </text>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="198.3" y="754">componentDidUnload()</tspan>
-    </text>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="346" y="198">@Watch(‘propName’)</tspan>
-    </text>
-    <text font-size="14" letter-spacing="-.2" fill="#9A6400">
-      <tspan x="110.8" y="580">Change in a value of prop or state triggers re-render</tspan>
-    </text>
-    <text font-size="14" letter-spacing="-.2" fill="#9A6400">
-      <tspan x="211.7" y="640">Component removed</tspan>
-    </text>
-    <rect fill="#39B54A" y="342" width="555" height="49" rx="24.5"/>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="240.4" y="371">render()</tspan>
-    </text>
-    <rect fill="#212431" y="63" width="252" height="49" rx="24.5"/>
-    <text font-family="SFMono-Regular, SF Mono, Lucida Console, monospace" font-size="15" fill="#FFF">
-      <tspan x="38.4" y="92">componentWillLoad()</tspan>
-    </text>
-  </g>
-</svg>
-
 ## Rendering State
 
-It's always recommended to make any rendered state updates within `componentWillLoad()` or `componentWillUpdate()`, since these are the methods which get called _before_ the `render()` method. Alternatively, updating rendered state with the `componentDidLoad()` or `componentDidUpdate()` methods will cause another re-render, which isn't ideal for performance.
+It's always recommended to make any rendered state updates within `componentWillRender()`, since this is the method which get called _before_ the `render()` method. Alternatively, updating rendered state with the `componentDidLoad()`, `componentDidUpdate()` and `componentDidRender()` methods will cause another rerender, which isn't ideal for performance.
 
-If state _must_ be updated in `componentDidUpdate()`, it has the potential of getting components stuck in an infinite loop. If updating state within `componentDidUpdate()` is unavoidable, then the method should also come with a way to detect if the props or state is "dirty" or not (is the data actually different or is it the same as before). By doing a dirty check, `componentDidUpdate()` is able to avoid rendering the same data, and which in turn calls `componentDidUpdate()` again.
+If state _must_ be updated in `componentDidUpdate()` or `componentDidRender()`, it has the potential of getting components stuck in an infinite loop. If updating state within `componentDidUpdate()` is unavoidable, then the method should also come with a way to detect if the props or state is "dirty" or not (is the data actually different or is it the same as before). By doing a dirty check, `componentDidUpdate()` is able to avoid rendering the same data, and which in turn calls `componentDidUpdate()` again.
 
 
 ## Lifecycle Hierarchy
@@ -181,7 +151,7 @@ componentWillLoad() {
 
 ## Example
 
-This simple example shows a clock and updates the current time every second. Since `componentDidLoad` is only called once, we will only ever have one instance of the timer running. Once the component unloads, the timer is stopped.
+This simple example shows a clock and updates the current time every second. The timer is started when the component is added to the DOM. Once it's removed from the DOM, the timer is stopped.
 
 ```tsx
 import { Component, State, h } from '@stencil/core';
@@ -195,13 +165,13 @@ export class CustomClock {
 
   @State() time: number = Date.now();
 
-  componentDidLoad() {
+  connectedCallback() {
     this.timer = window.setInterval(() => {
       this.time = Date.now();
     }, 1000);
   }
 
-  componentDidUnload() {
+  disconnectedCallback() {
     window.clearInterval(this.timer);
   }
 

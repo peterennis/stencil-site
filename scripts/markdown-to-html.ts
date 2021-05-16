@@ -17,7 +17,6 @@ const DESTINATION_DIR = './src/assets/docs';
 const SOURCE_DIR = './src/docs';
 const SITE_STRUCTURE_FILE = './src/assets/docs-structure.json';
 
-
 (async function() {
   const siteStructure = await readFile(SITE_STRUCTURE_FILE, { encoding: 'utf8' });
   const siteStructureJson: SiteStructureItem[] = JSON.parse(siteStructure);
@@ -88,6 +87,3 @@ const SITE_STRUCTURE_FILE = './src/assets/docs-structure.json';
 
   console.log(`successfully converted ${filePromises.length} files`);
 })();
-
-
-

@@ -12,7 +12,7 @@ The `@State()` decorator can be used to manage internal data for a component. Th
 
 ## Example
 
-This example makes use of State and Listen decorators. We define a class property called `open` and decorate it with `@State`. With the use of `@Listener` we respond to click events
+This example makes use of State and Listen decorators. We define a class property called `open` and decorate it with `@State`. With the use of `@Listen` we respond to click events
  toggling the value of `open`.
 
 ```tsx
@@ -66,7 +66,7 @@ Not all internal state might need to be decorated with `@State()`, in fact it's 
 ```tsx
 class Component {
 
-  // If `cacheData` changes we don't want to re-render the component,
+  // If `cacheData` changes we don't want to rerender the component,
   // so we DON'T decorate it with @State
   cacheData = SOME_BIG_DATA;
 

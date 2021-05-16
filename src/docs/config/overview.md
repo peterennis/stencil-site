@@ -27,10 +27,10 @@ export const config: Config = {
 
 ## buildEs5
 
-Sets if the ES5 build should be generated or not. It defaults to `false` in dev mode, and `true` in production mode. Notice that Stencil always generates a modern build too, whereas this setting will either disable es5 builds entirely with `false`, or always create es5 builds (even in dev mode) when set to `true`. Basically if the app does not need to run on legacy browsers (IE11 and Edge 18 and below), it's safe to set `buildEs5` to `false`, which will also speed up production build times. In addition to not creating es5 builds, apps may also be interested in disabling any unnecessary runtime when __not__ supporting legacy browsers. See [config extras](/docs/config-extras) for more information.
+Sets if the ES5 build should be generated or not. It defaults to `false`. Setting `true` will also create es5 builds for both dev and prod modes. Setting `buildEs5` to `prod` will only build ES5 in prod mode. Basically if the app does not need to run on legacy browsers (IE11 and Edge 18 and below), it's safe to use the default respectively, `buildEs5` set  to `false`, which will also speed up production build times. In addition to creating es5 builds, apps may also be interested in enable runtime options to __support__ legacy browsers. See [config extras](/docs/config-extras) for more information.
 
 ```tsx
-buildEs5: false
+buildEs5: boolean | 'prod'
 ```
 
 ## bundles
@@ -60,12 +60,19 @@ enableCache: true
 
 ## globalScript
 
-The global script runs once before your library/app loads, so you can do things like setting up a connection to an external service or configuring a library you are using.
-
-The code to be executed should be placed within a default function that is exported by the global script. Ensure all of the code in the global script is wrapped in the function that is exported.
-
 The global script config option takes a file path as a string.
 
+The global script runs once before your library/app loads, so you can do things like setting up a connection to an external service or configuring a library you are using.
+
+The code to be executed should be placed within a default function that is exported by the global script. Ensure all of the code in the global script is wrapped in the function that is exported:
+
+```javascript
+export default function() { // or export default async function()
+  initServerConnection();
+}
+```
+
+> The exported function can also be `async`.
 
 ## globalStyle
 
@@ -163,11 +170,11 @@ srcDir: 'src'
 
 ## taskQueue
 
-*default: `congestionAsync`*
+*default: `async`*
 
 Sets the task queue used by stencil's runtime. The task queue schedules DOM read and writes
 across the frames to efficiently render and reduce layout thrashing. By default, the
-`congestionAsync` is used. It's recommended to also try each setting to decide which works
+`async` is used. It's recommended to also try each setting to decide which works
 best for your use-case. In all cases, if your app has many CPU intensive tasks causing the
 main thread to periodically lock-up, it's always recommended to try
 [Web Workers](https://stenciljs.com/docs/web-workers) for those tasks.

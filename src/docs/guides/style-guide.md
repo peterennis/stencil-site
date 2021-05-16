@@ -205,11 +205,15 @@ export class Something {
    * Ordered by their natural call order, for example
    * WillLoad should go before DidLoad.
    */
+  connectedCallback() {}
+  disconnectedCallback() {}
   componentWillLoad() {}
   componentDidLoad() {}
   componentWillUpdate() {}
   componentDidUpdate() {}
-  componentDidUnload() {}
+  componentWillRender() {}
+  componentShouldRender(newVal: any, oldVal: any, propName: string) {}
+  componentDidRender() {}
 
   /**
    * 7. Listeners
@@ -256,7 +260,8 @@ export class Something {
 
   /**
    * 10. render() function
-   * Always the last one in the class.
+   * Always the last public method in the class.
+   * If private methods present, they are below public methods.
    */
   render() {
     return (
